@@ -1,37 +1,50 @@
-import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import React from 'react';
+import { StackNavigator, addNavigationHelpers } from 'react-navigation';
+import { createReduxBoundAddListener, createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers';
+import { Provider, connect } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import routes from './config/routes';
+import getRootReducer from './config/getRootReducer';
 
-type Props = {};
-export default class App extends Component<Props> {
+// Note: createReactNavigationReduxMiddleware must be run before createReduxBoundAddListener
+const middleware = createReactNavigationReduxMiddleware("root", state => state.nav);
+const addListener = createReduxBoundAddListener("root");
+
+const AppNavigator = StackNavigator(routes);
+class App extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.header}>
-          Welcome to ToDo Redux!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-      </View>
+      <AppNavigator navigation={addNavigationHelpers({
+        dispatch: this.props.dispatch,
+        state: this.props.nav,
+        addListener,
+      })} />
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  header: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-});
+const navReducer = (state, action) => {
+  const nextState = AppNavigator.router.getStateForAction(action, state);
+  return nextState || state;
+};
+
+const store = createStore(
+  getRootReducer(navReducer),
+  applyMiddleware(middleware),
+);
+
+
+const mapStateToProps = (state) => ({ nav: state.nav });
+const AppWithNavigationState = connect(mapStateToProps)(App);
+
+class Root extends React.Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <AppWithNavigationState />
+      </Provider>
+    );
+  }
+}
+
+export default Root;
