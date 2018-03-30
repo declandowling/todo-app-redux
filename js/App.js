@@ -25,7 +25,7 @@ const App = props => (
 
 App.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  nav: PropTypes.func.isRequired,
+  nav: PropTypes.shape({}).isRequired,
 };
 
 const navReducer = (state, action) => {
