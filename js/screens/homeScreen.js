@@ -1,27 +1,25 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import TodoContainerList from '../components/todoContainerList';
+import TodoContainerAddItemForm from '../components/todoContainerAddItemForm';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
   header: {
     fontSize: 20,
     textAlign: 'center',
     margin: 10,
+    marginTop: 30,
   },
 });
 
 export default () => (
   <View style={styles.container}>
-    <Text style={styles.header}>
-      Welcome to ToDo Redux!
-    </Text>
-    <Text style={styles.instructions}>
-      To get started, edit App.js
-    </Text>
+    <TodoContainerList />
+    <TodoContainerAddItemForm />
   </View>
 );
