@@ -1,4 +1,4 @@
-import HomeScreen from '../screens/homeScreen'
+import HomeScreen from '../screens/homeScreen';
 
 export default {
   Home: { screen: HomeScreen },

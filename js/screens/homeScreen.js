@@ -1,26 +1,5 @@
-import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
-
-type Props = {};
-export default class HomeScreen extends Component<Props> {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.header}>
-          Welcome to ToDo Redux!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-      </View>
-    );
-  }
-}
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -35,3 +14,14 @@ const styles = StyleSheet.create({
     margin: 10,
   },
 });
+
+export default () => (
+  <View style={styles.container}>
+    <Text style={styles.header}>
+      Welcome to ToDo Redux!
+    </Text>
+    <Text style={styles.instructions}>
+      To get started, edit App.js
+    </Text>
+  </View>
+);
